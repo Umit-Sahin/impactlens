@@ -1,0 +1,16 @@
+// app/components/Footer.tsx
+
+export function Footer() {
+    return (
+      <footer className="mt-12 border-t border-gray-200 py-6 px-4 text-center text-sm text-gray-600">
+        <p className="mb-2">
+          Contact us at{" "}
+          <a href="mailto:support@impactlens.dev" className="text-purple-700 underline">
+            support@impactlens.co
+          </a>
+        </p>
+        <p>&copy; {new Date().getFullYear()} ImpactLens. All rights reserved.</p>
+      </footer>
+    );
+  }
+  
