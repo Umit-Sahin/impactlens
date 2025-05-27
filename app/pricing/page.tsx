@@ -9,13 +9,13 @@ export default function PricingPage() {
   const plans = [
     {
       title: "Basic",
-      price: "$0",
+      price: "Contact us",
       description: "Perfect for individuals getting started.",
       features: ["1 project", "Basic insights", "Community support"],
     },
     {
       title: "Pro",
-      price: "$19/month",
+      price: "Contact us",
       description: "Ideal for small teams.",
       features: ["Up to 10 projects", "Advanced insights", "Priority support"],
     },

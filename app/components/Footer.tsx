@@ -6,10 +6,10 @@ export function Footer() {
         <p className="mb-2">
           Contact us at{" "}
           <a href="mailto:support@impactlens.dev" className="text-purple-700 underline">
-            support@impactlens.co
+            info@impactlens.co
           </a>
         </p>
-        <p>&copy; {new Date().getFullYear()} ImpactLens. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} ImpactLens, Powered by PTech. All rights reserved.</p>
       </footer>
     );
   }
