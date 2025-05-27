@@ -3,7 +3,7 @@ export default function HomePage() {
     <div className="max-w-7xl mx-auto px-6 py-24 space-y-28">
       {/* Hero */}
       <section className="text-center bg-purple-50 p-8 rounded-xl shadow-md">
-        <h1 className="text-5xl font-extrabold text-purple-700 mb-6">
+        <h1 className="text-4xl font-extrabold text-purple-700 mb-6">
           Know What Your Code Impacts — Before You Merge
         </h1>
         <p className="text-lg text-gray-700 max-w-2xl mx-auto mb-8">
