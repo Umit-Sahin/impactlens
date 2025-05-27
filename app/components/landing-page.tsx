@@ -12,6 +12,17 @@ export default function LandingPage() {
 
   return (
     <div className="bg-white text-gray-900">
+
+      {/* Navbar */}
+      <header className="px-6 py-4 flex justify-between items-center shadow-sm">
+        <div className="text-2xl font-bold text-purple-700">ImpactLens</div>
+        <a href="/signin">
+          <button className="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-xl text-sm transition">
+            Sign In
+          </button>
+        </a>
+      </header>
+
       {/* Hero Section */}
       <section className="px-6 py-20 lg:py-32 bg-gradient-to-br from-purple-100 to-blue-100">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
