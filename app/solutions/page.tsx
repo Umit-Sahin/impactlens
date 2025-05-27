@@ -1,13 +1,19 @@
 // app/solutions/page.tsx
-import { Lightbulb, AlertCircle, Share2, BarChart } from "lucide-react";
+import { Lightbulb, AlertCircle, Share2, BarChart, MapIcon, ListCheck } from "lucide-react";
 
 export default function SolutionsPage() {
   const solutions = [
     {
-      title: "Pull Request Visualization",
+      title: "Entity Registry",
       description:
-        "Instantly see affected modules, components, and dependencies.",
-      icon: <BarChart className="w-8 h-8 text-purple-700" />,
+        "Create a central inventory of all items in the system.",
+      icon: <ListCheck className="w-8 h-8 text-purple-700" />,
+    },
+    {
+      title: "Dependency Mapping",
+      description:
+        "Navigate through change propagation with clear diagrams and visual maps.",
+      icon: <MapIcon className="w-8 h-8 text-purple-700" />,
     },
     {
       title: "Risk Analysis",
@@ -16,11 +22,12 @@ export default function SolutionsPage() {
       icon: <AlertCircle className="w-8 h-8 text-purple-700" />,
     },
     {
-      title: "Impact Mapping",
+      title: "Impact Analysis",
       description:
-        "Navigate through change propagation with clear diagrams and visual maps.",
+        "If a component is changed you can see which elements are affected.",
       icon: <Lightbulb className="w-8 h-8 text-purple-700" />,
     },
+
     {
       title: "Team Collaboration",
       description:

@@ -9,7 +9,7 @@ import React from "react";
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About Us" },
-  { href: "/corporate", label: "Corporate" },
+  { href: "/corporate", label: "Company" },
   { href: "/solutions", label: "Solutions" },
   { href: "/pricing", label: "Pricing" },
   { href: "/contact", label: "Contact Us" },
@@ -27,8 +27,8 @@ export default function Navbar() {
       <nav className="flex justify-between items-center px-6 py-4 shadow-md bg-white">
       <div className="text-4xl font-extrabold text-purple-900 tracking-wider italic">
           <Link href="/">
-          <span className="text-purple-800">PTech</span>
-          <span className="text-purple-600 text-lg">Techology</span>
+          <span className="text-purple-800">Impact</span>
+          <span className="text-purple-600 text-2xlg">Lens</span>
           </Link>
         </div>
         
@@ -37,7 +37,7 @@ export default function Navbar() {
             <Link
               key={href}
               href={href}
-              className={`text-lg font-medium hover:text-purple-700 transition-colors ${
+              className={`text-2xlg font-semibold hover:text-purple-700 transition-colors ${
                 pathname === href ? "text-purple-700 underline" : "text-gray-700"
               }`}
             >

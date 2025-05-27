@@ -81,13 +81,13 @@ export default function HomePage() {
         </p>
         <div className="bg-white p-6 rounded-lg shadow">
           <code className="text-purple-800 font-mono">
-            🔍 services/user → modules/auth → analytics/logging
+            🔍   services/user → modules/auth → analytics/logging
           </code>
         </div>
       </section>
 
       {/* Benefits */}
-      <section className="bg-green-50 p-8 rounded-xl shadow-md">
+      <section className="bg-purple-50 p-8 rounded-xl shadow-md">
         <h2 className="text-3xl font-bold text-center mb-16 text-gray-900">
           Why Teams Choose ImpactLens
         </h2>
@@ -115,7 +115,7 @@ export default function HomePage() {
 
       {/* Final CTA */}
       <section className="text-center bg-blue-50 p-8 rounded-xl shadow-md">
-        <h2 className="text-3xl font-bold text-purple-700 mb-4">
+        <h2 className="text-3xl font-bold text-blue-700 mb-4">
           Start shipping safer code today.
         </h2>
         <p className="text-gray-600 mb-6">
@@ -123,7 +123,7 @@ export default function HomePage() {
         </p>
         <a
           href="/pricing"
-          className="bg-purple-700 hover:bg-purple-800 text-white font-semibold px-10 py-4 rounded-lg transition"
+          className="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-10 py-4 rounded-lg transition"
         >
           Explore Plans
         </a>
