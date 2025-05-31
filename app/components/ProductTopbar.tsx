@@ -1,9 +1,9 @@
 'use client';
 
 import { useSidebar } from '@/app/context/SidebarContext';
-import { signOut } from 'next-auth/react'; // 👈 Sign out fonksiyonunu ekle
 import { Menu, Bell, User } from 'lucide-react';
 import { useState } from 'react';
+import { signOut } from 'next-auth/react';
 
 export default function ProductTopbar() {
   const { toggleSidebar } = useSidebar();
@@ -34,12 +34,15 @@ export default function ProductTopbar() {
       <div className="flex items-center gap-6 relative">
         <Bell className="text-gray-600 hover:text-purple-700 cursor-pointer" />
         <div className="relative">
-          <button onClick={() => setOpenDropdown(!openDropdown)} className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-purple-700">
+          <button
+            onClick={() => setOpenDropdown(!openDropdown)}
+            className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-purple-700"
+          >
             <User className="w-5 h-5" />
             <span>U. Sahin</span>
           </button>
           {openDropdown && (
-            <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md border">
+            <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md border z-50">
               <div className="px-4 py-2 border-b">
                 <p className="text-sm font-bold">Umit Sahin</p>
                 <p className="text-xs text-gray-500">Developer</p>
@@ -49,12 +52,12 @@ export default function ProductTopbar() {
                 <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Account Settings</li>
                 <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Need Help?</li>
               </ul>
-              <div
-                onClick={() => signOut({ callbackUrl: '/signin' })}    // 👈 Sign out çağrısı burada
-                className="px-4 py-2 text-sm text-red-600 hover:bg-gray-100 cursor-pointer border-t"
+              <button
+                onClick={() => signOut({ callbackUrl: '/signin' })}
+                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 border-t"
               >
                 Sign Out
-              </div>
+              </button>
             </div>
           )}
         </div>
