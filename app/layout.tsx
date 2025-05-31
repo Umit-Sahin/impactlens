@@ -1,9 +1,8 @@
 // app/layout.tsx
-
 import "./globals.css";
-import { Footer } from "@/app/components/Footer";
 import { ReactNode } from "react";
-import Navbar from "@/app/components/Navbar";
+import { Footer } from "@/app/components/Footer";
+import ClientWrapper from "@/app/components/ClientWrapper";
 
 export const metadata = {
   title: "ImpactLens",
@@ -16,11 +15,8 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className="pb-[100px] bg-gray-50 text-gray-900 ">
-        <Navbar />
-        <main className="min-h-screen pb-28 bg-gray-50">
-          {children}
-        </main>
+      <body className="pb-[20px] bg-gray-50 text-gray-900">
+        <ClientWrapper>{children}</ClientWrapper>
         <Footer />
       </body>
     </html>
