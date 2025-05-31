@@ -8,7 +8,7 @@ interface MainBodyProps {
 
 export default function MainBody({ children }: MainBodyProps) {
   return (
-    <main className="min-h-[40vh] pb-28 bg-gray-50">
+    <main className="min-h-[40vh] pb-20 bg-gray-50">
       {children}
     </main>
   );
