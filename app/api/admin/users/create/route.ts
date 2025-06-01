@@ -1,4 +1,4 @@
-// app/api/admin/users/create/route.ts
+// 📄 File: app/api/admin/users/create/route.ts
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
@@ -11,18 +11,18 @@ export async function POST(req: NextRequest) {
 
   // ❌ Eğer giriş yapılmamışsa veya kullanıcı SUPER_ADMIN değilse
   if (!session || session.user?.role !== 'SUPER_ADMIN') {
-    return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    return new Response(JSON.stringify({ message: 'Unauthorized' }), { status: 401 });
   }
 
   try {
     const { name, email, username, password, role } = await req.json();
 
-    //  ✅ Zorunlu alanların kontrolü
+    // ✅ Zorunlu alanların kontrolü
     if (!name || !email || !username || !password || !role) {
-      return NextResponse.json({ message: 'All fields are required' }, { status: 400 });
+      return new Response(JSON.stringify({ message: 'All fields are required' }), { status: 400 });
     }
 
-    // Şifreyi hashle
+    // ✅ Şifreyi hashle
     const hashedPassword = await hash(password, 10);
 
     // ✅ Kullanıcıyı oluştur
@@ -44,9 +44,9 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json(newUser), { status: 201 };
+    return new Response(JSON.stringify(newUser), { status: 201 });
   } catch (error) {
     console.error('[CREATE_USER_ERROR]', error);
-    return NextResponse.json({ message: 'Failed to create user' }, { status: 500 });
+    return new Response(JSON.stringify({ message: 'Failed to create user' }), { status: 500 });
   }
 }
