@@ -84,7 +84,7 @@ export default function SignUpForm() {
         required
         minLength={8}
       />
-
+         {error && <p className="text-red-600 text-sm">{error}</p>}
       <button
         type="submit"
         className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg text-lg font-semibold"

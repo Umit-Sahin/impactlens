@@ -9,16 +9,39 @@ datasource db {
 
 enum Role {
   USER
+  DEVELOPER
   ADMIN
+  SUPER_ADMIN
 }
 
 model User {
-  id             String   @id @default(uuid())
-  email          String   @unique
-  hashedPassword String
-  name           String?
-  username       String?  @unique
-  role           Role     @default(USER)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String?  // <-- artık opsiyonel
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  company   Company? @relation(fields: [companyId], references: [id])
+  companyId String?
+
+  logs Log[]
+}
+
+model Company {
+  id        String   @id @default(cuid())
+  name      String
+  users     User[]
+  createdAt DateTime @default(now())
+}
+
+model Log {
+  id         String   @id @default(cuid())
+  action     String
+  ip_address String?
+  created_at DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 }
