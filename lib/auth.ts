@@ -26,13 +26,6 @@ export const authOptions: AuthOptions = {
 
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            role: true,
-            password: true,
-          },
         });
 
         if (!user || !user.password) return null;
@@ -57,14 +50,6 @@ export const authOptions: AuthOptions = {
       if (user) {
         token.id = user.id;
         token.role = user.role;
-      } else if (token?.id) {
-        const dbUser = await prisma.user.findUnique({
-          where: { id: token.id },
-          select: { role: true },
-        });
-        if (dbUser) {
-          token.role = dbUser.role;
-        }
       }
       return token;
     },
