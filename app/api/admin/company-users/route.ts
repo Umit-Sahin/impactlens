@@ -1,41 +1,31 @@
-// app/api/admin/company-users/route.ts
-
-import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
+// ✅ app/api/admin/company-users/route.ts
+import { NextRequest, NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 
-export async function GET() {
+export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
 
-  // Sadece ADMIN rolündeki kullanıcılar erişebilir
-  if (!session || session.user?.role !== 'ADMIN') {
+  if (!session || (session.user as { role?: string })?.role !== 'ADMIN' && (session.user as { role?: string })?.role !== 'SUPER_ADMIN') {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 
   try {
-    const adminUser = await prisma.user.findUnique({
-      where: { id: session.user.id },
-    });
-
-    if (!adminUser?.companyId) {
-      return NextResponse.json([], { status: 200 });
+    const { companyId, userId } = await req.json();
+    if (!companyId || !userId) {
+      return NextResponse.json({ message: 'Company ID and User ID are required' }, { status: 400 });
     }
 
-    const users = await prisma.user.findMany({
-      where: { companyId: adminUser.companyId },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        createdAt: true,
-      },
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: { companyId },
+      select: { id: true, name: true, email: true, role: true, companyId: true },
     });
 
-    return NextResponse.json(users);
+    return NextResponse.json({ message: 'User linked to company', user: updatedUser }, { status: 200 });
   } catch (error) {
-    console.error('[ADMIN_COMPANY_USERS_ERROR]', error);
-    return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
+    console.error('[COMPANY_USERS_ERROR]', error);
+    return NextResponse.json({ message: 'Failed to link user to company' }, { status: 500 });
   }
 }
