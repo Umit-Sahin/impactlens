@@ -1,12 +1,12 @@
-// lib/auth.ts
 
+// 📄 lib/auth.ts
 
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import { AuthOptions } from "next-auth";
-import GitHubProvider from "next-auth/providers/github";
-import CredentialsProvider from "next-auth/providers/credentials";
-import prisma from "@/lib/prisma";
-import { compare } from "bcryptjs";
+import { PrismaAdapter } from '@auth/prisma-adapter';
+import { AuthOptions } from 'next-auth';
+import GitHubProvider from 'next-auth/providers/github';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import prisma from '@/lib/prisma';
+import { compare } from 'bcryptjs';
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -16,13 +16,13 @@ export const authOptions: AuthOptions = {
       clientSecret: process.env.GITHUB_SECRET!,
     }),
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        if (!credentials) return null;
+        if (!credentials?.email || !credentials?.password) return null;
 
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
@@ -43,28 +43,30 @@ export const authOptions: AuthOptions = {
     }),
   ],
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.role = user.role;
+        token.role = (user as { role?: string }).role;
       }
       return token;
     },
     async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.id;
-        session.user.role = token.role;
-      }
+      session.user = {
+        ...session.user,
+        id: token.id as string,
+        role: token.role as string,
+      };
       return session;
     },
   },
   pages: {
-    signIn: "/signin",
+    signIn: '/signin',
   },
 };
+
 
 // ✅ Final sürüm: Debug logları kaldırıldı, sistem kararlı hale getirildi.
 // ✅ jwt callback her zaman role değerini veritabanından çekerek güncelliyor.
