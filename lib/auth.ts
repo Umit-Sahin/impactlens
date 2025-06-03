@@ -49,16 +49,18 @@ export const authOptions: AuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.role = (user as { role?: string }).role;
+
+        // 🔒 Güvenli cast
+        const userWithRole = user as typeof user & { role?: string };
+        token.role = userWithRole.role;
       }
       return token;
     },
     async session({ session, token }) {
-      session.user = {
-        ...session.user,
-        id: token.id as string,
-        role: token.role as string,
-      };
+      if (session.user) {
+        session.user.id = token.id as string;
+        session.user.role = token.role as string;
+      }
       return session;
     },
   },
@@ -66,6 +68,7 @@ export const authOptions: AuthOptions = {
     signIn: '/signin',
   },
 };
+
 
 
 // ✅ Final sürüm: Debug logları kaldırıldı, sistem kararlı hale getirildi.
