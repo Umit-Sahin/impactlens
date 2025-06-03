@@ -17,8 +17,9 @@ enum Role {
 model User {
   id        String   @id @default(cuid())
   name      String
+  username  String?   @unique  
   email     String   @unique
-  password  String?  // <-- artık opsiyonel
+  password  String?  
   role      Role     @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
