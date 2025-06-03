@@ -1,16 +1,25 @@
+//app/components/ProductTopbar.tsx
+
 'use client';
 
 import { useSidebar } from '@/app/context/SidebarContext';
 import { Menu, Bell, User } from 'lucide-react';
 import { useState } from 'react';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export default function ProductTopbar() {
   const { toggleSidebar } = useSidebar();
   const [openDropdown, setOpenDropdown] = useState(false);
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  const handleAdminClick = () => {
+    router.push('/admin');
+  };
 
   return (
-    <header className="flex items-center justify-between px-6 py-3 bg-white shadow-sm sticky top-0 z-50">
+    <header className="flex items-center px-6 py-3 bg-white shadow-sm sticky top-0 z-50">
       {/* Sol: Logo + Menü */}
       <div className="flex items-center gap-4">
         <button onClick={toggleSidebar} className="text-gray-700 hover:text-purple-700">
@@ -30,8 +39,16 @@ export default function ProductTopbar() {
         />
       </div>
 
-      {/* Sağ: Bildirimler + Kullanıcı Menüsü */}
-      <div className="flex items-center gap-6 relative">
+      {/* Sağ: Admin Butonu + Bildirimler + Kullanıcı Menüsü */}
+      <div className="flex items-center gap-4 ml-auto">
+        {session?.user?.role === 'SUPER_ADMIN' && (
+          <button
+            onClick={handleAdminClick}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Go Admin Panel
+          </button>
+        )}
         <Bell className="text-gray-600 hover:text-purple-700 cursor-pointer" />
         <div className="relative">
           <button
@@ -39,13 +56,13 @@ export default function ProductTopbar() {
             className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-purple-700"
           >
             <User className="w-5 h-5" />
-            <span>U. Sahin</span>
+            <span>{session?.user?.name || 'Kullanıcı'}</span>
           </button>
           {openDropdown && (
             <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md border z-50">
-              <div className="px-4 py-2 border-b">
-                <p className="text-sm font-bold">Umit Sahin</p>
-                <p className="text-xs text-gray-500">Developer</p>
+              <div className="px-4 py-2 border-b text-right">
+                <p className="text-sm font-bold">{session?.user?.name}</p>
+                <p className="text-xs text-blue-600 font-semibold">{session?.user?.role}</p>
               </div>
               <ul className="text-sm text-gray-700">
                 <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">My Profile</li>
@@ -54,7 +71,7 @@ export default function ProductTopbar() {
               </ul>
               <button
                 onClick={() => signOut({ callbackUrl: '/signin' })}
-                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 border-t"
+                className="w-full text-left px-4 py-2 text-sm font-bold text-black hover:bg-gray-100 border-t"
               >
                 Sign Out
               </button>
@@ -65,3 +82,6 @@ export default function ProductTopbar() {
     </header>
   );
 }
+
+// 📌 Düzeltme: Çift görünümlü Admin Paneli butonu kaldırıldı; yalnızca üst barda bir kez, bildirim ve kullanıcı menüsünün hemen solunda yer alacak şekilde düzenlendi.
+
