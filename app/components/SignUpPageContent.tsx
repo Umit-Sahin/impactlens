@@ -2,7 +2,6 @@
 
 'use client';
 
-import React from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import SignUpForm from '@/app/components/SignUpForm';
 import classNames from 'classnames';
@@ -46,7 +45,8 @@ export default function SignUpPageContent() {
 
       {selectedPlan ? (
         <div className="flex flex-col items-center min-h-[60vh] space-y-6">
-          <div className="w-full max-w-md bg-white px-6 py-3 rounded-xl text-left">
+          {/* Change Plan kartı */}
+          <div className="w-full max-w-md bg-white px-6 py-3 rounded-xl text-left shadow border">
             <button
               onClick={() => router.push('/signup')}
               className="text-purple-700 hover:underline text-md font-semibold"
@@ -54,6 +54,8 @@ export default function SignUpPageContent() {
               ← Change Plan
             </button>
           </div>
+
+          {/* Signup form */}
           <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-md border border-gray-200">
             <h2 className="text-2xl font-semibold text-center mb-6">
               Continue for the <span className="text-purple-700">{selectedPlan}</span> Plan
