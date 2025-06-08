@@ -45,7 +45,6 @@ export default function SignUpPageContent() {
 
       {selectedPlan ? (
         <div className="flex flex-col items-center min-h-[60vh] space-y-6">
-          {/* Change Plan kartı */}
           <div className="w-full max-w-md bg-white px-6 py-3 rounded-xl text-left shadow border">
             <button
               onClick={() => router.push('/signup')}
@@ -55,7 +54,6 @@ export default function SignUpPageContent() {
             </button>
           </div>
 
-          {/* Signup form */}
           <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-md border border-gray-200">
             <h2 className="text-2xl font-semibold text-center mb-6">
               Continue for the <span className="text-purple-700">{selectedPlan}</span> Plan
