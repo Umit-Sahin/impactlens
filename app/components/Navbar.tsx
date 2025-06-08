@@ -42,13 +42,17 @@ export default function Navbar() {
             </Link>
           ))}
 
+          <Link href="/signup"
+             className="ml-4 px-3 py-2 bg-purple-700 text-white rounded-md text-sm font-medium hover:bg-purple-800 transition">Sign Up
+          </Link>
+
           {/* Sign In Button */}
           <Link
             href="/signin"
-            className="ml-4 px-4 py-2 bg-purple-700 text-white rounded-md text-sm font-medium hover:bg-purple-800 transition"
-          >
-            Sign In
+            className="ml-1 px-4 py-2 bg-purple-700 text-white rounded-md text-sm font-medium hover:bg-purple-800 transition">Sign In
           </Link>
+
+
         </div>
 
         {/* Mobile Menu Toggle */}
