@@ -1,8 +1,11 @@
-//app/signup/page.tsx
+// app/signup/page.tsx
 
-'use client';
+import dynamic from 'next/dynamic';
 
-import SignUpPageContent from '@/app/components/SignUpPageContent';
+// Client component'i dinamik olarak yükle
+const SignUpPageContent = dynamic(() => import('@/app/components/SignUpPageContent'), {
+  ssr: false,
+});
 
 export default function SignUpPage() {
   return <SignUpPageContent />;
