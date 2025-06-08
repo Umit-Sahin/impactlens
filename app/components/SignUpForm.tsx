@@ -1,20 +1,25 @@
 // app/components/SignUpForm.tsx
 
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
-export default function SignUpForm() {
+interface SignUpFormProps {
+  selectedPlan: string;
+}
+
+export default function SignUpForm({ selectedPlan }: SignUpFormProps) {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    username: "",
-    password: "",
+    name: '',
+    email: '',
+    username: '',
+    password: '',
   });
-
-  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,74 +27,97 @@ export default function SignUpForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    setLoading(true);
+    setError('');
 
-    const res = await fetch("/api/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
+    try {
+      const res = await fetch('/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, plan: selectedPlan }),
+      });
 
-    if (res.ok) {
-      router.push("/signin");
-    } else {
       const data = await res.json();
-      setError(data.message || "Registration failed");
+
+      if (!res.ok) {
+        setError(data.message || 'Something went wrong');
+      } else {
+        router.push('/check-email');
+      }
+    } catch (err) {
+      setError('Something went wrong');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-white p-8 rounded-xl shadow-md w-full max-w-md space-y-6"
-    >
-      <h2 className="text-2xl font-bold text-center text-purple-800">Sign Up</h2>
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div>
+        <label className="block text-sm font-medium text-gray-700">Name</label>
+        <input
+          name="name"
+          type="text"
+          required
+          value={formData.name}
+          onChange={handleChange}
+          className="mt-1 block w-full px-4 py-2 border rounded-md focus:ring-purple-500 focus:border-purple-500"
+        />
+      </div>
 
-      {error && <p className="text-red-600 text-sm text-center">{error}</p>}
+      <div>
+        <label className="block text-sm font-medium text-gray-700">Email</label>
+        <input
+          name="email"
+          type="email"
+          required
+          value={formData.email}
+          onChange={handleChange}
+          className="mt-1 block w-full px-4 py-2 border rounded-md focus:ring-purple-500 focus:border-purple-500"
+        />
+      </div>
 
-      <input
-        type="text"
-        name="name"
-        placeholder="Full Name"
-        value={formData.name}
-        onChange={handleChange}
-        className="w-full px-4 py-2 border rounded-lg"
-        required
-      />
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        value={formData.email}
-        onChange={handleChange}
-        className="w-full px-4 py-2 border rounded-lg"
-        required
-      />
-      <input
-        type="text"
-        name="username"
-        placeholder="Username"
-        value={formData.username}
-        onChange={handleChange}
-        className="w-full px-4 py-2 border rounded-lg"
-        required
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={formData.password}
-        onChange={handleChange}
-        className="w-full px-4 py-2 border rounded-lg"
-        required
-        minLength={8}
-      />
-         {error && <p className="text-red-600 text-sm">{error}</p>}
+      <div>
+        <label className="block text-sm font-medium text-gray-700">Username</label>
+        <input
+          name="username"
+          type="text"
+          required
+          value={formData.username}
+          onChange={handleChange}
+          className="mt-1 block w-full px-4 py-2 border rounded-md focus:ring-purple-500 focus:border-purple-500"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700">Password</label>
+        <div className="relative">
+          <input
+            name="password"
+            type={showPassword ? 'text' : 'password'}
+            required
+            value={formData.password}
+            onChange={handleChange}
+            className="mt-1 block w-full px-4 py-2 border rounded-md focus:ring-purple-500 focus:border-purple-500 pr-10"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute inset-y-0 right-0 px-3 flex items-center text-sm text-gray-600"
+          >
+            {showPassword ? 'Hide' : 'Show'}
+          </button>
+        </div>
+      </div>
+
+      {error && <p className="text-sm text-red-600">{error}</p>}
+
       <button
         type="submit"
-        className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg text-lg font-semibold"
+        disabled={loading}
+        className="w-full bg-purple-700 text-white py-2 px-4 rounded hover:bg-purple-800 transition"
       >
-        Register
+        {loading ? 'Signing up...' : 'Sign Up'}
       </button>
     </form>
   );
