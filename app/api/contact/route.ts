@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       from: 'ImpactLens Contact <noreply@impactlens.co>',
       to: 'info@impactlens.co', // Mail gelecek eposta adresi
       subject: `New Contact Message from ${name}`,
-      reply_to: email,
+      replyTo: email,
       html: `
         <h2>Yeni mesaj!</h2>
         <p><strong>Ad:</strong> ${name}</p>
