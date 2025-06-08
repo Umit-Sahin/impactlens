@@ -15,7 +15,7 @@ export async function GET() {
   }
 
   if (session.user?.role !== 'SUPER_ADMIN') {
-    return NextResponse.json({ message: 'Unauthorized: Insufficient role' }, { status: 403 });
+    return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
   }
 
   try {

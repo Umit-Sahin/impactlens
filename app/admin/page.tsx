@@ -1,8 +1,9 @@
-// 📄 File: app/admin/page.tsx
-
+// 📄 app/admin/page.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 type User = {
   id: string;
@@ -12,9 +13,19 @@ type User = {
 };
 
 export default function AdminPage() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // ✅ Eğer kullanıcı giriş yapmamışsa veya SUPER_ADMIN değilse yönlendir
+    if (status === 'loading') return;
+    if (!session || session.user.role !== 'SUPER_ADMIN') {
+      router.replace('/signin'); 
+    }
+  }, [session, status, router]);
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -53,8 +64,11 @@ export default function AdminPage() {
   };
 
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    if (session?.user?.role === 'SUPER_ADMIN') {
+      fetchUsers();
+    }
+  }, [session]);
+  if (status === 'loading') return <p>Loading session...</p>;
 
   return (
     <div className="p-8">
@@ -99,5 +113,6 @@ export default function AdminPage() {
     </div>
   );
 }
+
 
 // 📌 Not: Admin sayfasında artık genel navbar veya product topbar kullanılmıyor. Admin'e özel sade bir sayfa tasarlandı.
