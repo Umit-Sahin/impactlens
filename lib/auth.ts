@@ -30,7 +30,6 @@ export const authOptions: AuthOptions = {
             },
           },
         });
-        
 
         if (!user || !user.password) return null;
 
@@ -44,7 +43,6 @@ export const authOptions: AuthOptions = {
           role: user.role as Role,
           plan: user.company?.plan,
         };
-        
       },
     }),
     GitHubProvider({
@@ -60,6 +58,7 @@ export const authOptions: AuthOptions = {
       if (user) {
         token.id = user.id;
         token.role = (user as { role: Role }).role;
+        token.plan = (user as { plan: string }).plan;
       }
       return token;
     },
@@ -76,3 +75,7 @@ export const authOptions: AuthOptions = {
     signIn: '/signin',
   },
 };
+
+// ✅ EKLENDİ: Server-side auth fonksiyonu
+import { getServerSession } from 'next-auth';
+export const auth = () => getServerSession(authOptions);
