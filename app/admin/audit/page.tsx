@@ -3,7 +3,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@lib/auth";
 import { redirect } from "next/navigation";
-import AuditTrailPageWrapper from "app/components/admin/AuditTrailPageWrapper";
+import AuditTrailPageWrapper from "@/components/admin/AuditTrailPageWrapper";
 
 export default async function AuditTrailPage() {
   const session = await getServerSession(authOptions);

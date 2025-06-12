@@ -5,7 +5,7 @@ import { authOptions } from "@lib/auth";
 import { redirect } from "next/navigation";
 import prisma from "@lib/prisma";
 import Link from "next/link";
-import DeleteButton from "../../components/admin/DeleteButton";
+import DeleteButton from "@/components/admin/DeleteButton";
 
 
 export default async function AdminDomainsPage() {

@@ -3,7 +3,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import PaymentForm from 'app/components/admin/PaymentForm';
+import PaymentForm from '@/components/admin/PaymentForm';
 
 type Payment = {
   id: string;
