@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useSidebar } from '@/app/context/SidebarContext';
+import { useSidebar } from '@/context/SidebarContext';
 import { Menu, Bell, User } from 'lucide-react';
 import { useState } from 'react';
 import { signOut, useSession } from 'next-auth/react';

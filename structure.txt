@@ -1,11 +1,4 @@
 .
-├── .DS_Store
-├── .env
-├── .gitignore
-├── .vscode
-│   ├── jsconfig.json
-│   ├── launch.json
-│   └── main.js
 ├── app
 │   ├── about
 │   │   └── page.tsx
@@ -53,7 +46,7 @@
 │   │   │   │   └── route.ts
 │   │   │   └── users
 │   │   │       ├── create
-│   │   │       └── route.tsx
+│   │   │       └── route.ts
 │   │   ├── audit-log
 │   │   │   └── route.ts
 │   │   ├── auth
@@ -115,7 +108,10 @@
 │   │   ├── TrustBadges.jsx
 │   │   ├── ui
 │   │   │   ├── badge.tsx
-│   │   │   └── button.tsx
+│   │   │   ├── button.tsx
+│   │   │   ├── card.tsx
+│   │   │   ├── input.tsx
+│   │   │   └── label.tsx
 │   │   ├── UserActions.tsx
 │   │   └── VerifyEmailContent.tsx
 │   ├── contact
@@ -171,18 +167,12 @@
 │   │   └── page.tsx
 │   └── verify-email
 │       └── page.tsx
-├── components
-│   └── ui
-│       ├── button.tsx
-│       ├── card.tsx
-│       ├── input.tsx
-│       └── label.tsx
 ├── components.json
 ├── docs
+│   ├── file-structure.txt
 │   ├── kimlik-dogrulama-akisi.md
 │   ├── prisma-models.md
 │   └── veritabani-erisimi.md
-├── file-structure.txt
 ├── lib
 │   ├── admin.ts
 │   ├── auth.ts
@@ -217,6 +207,8 @@
 │   │   │   └── migration.sql
 │   │   ├── 20250609202946_add_audit_log_relation
 │   │   │   └── migration.sql
+│   │   ├── 20250612085546_add_entity_model
+│   │   │   └── migration.sql
 │   │   └── migration_lock.toml
 │   ├── schema.prisma
 │   └── seed.js
@@ -235,8 +227,11 @@
 │   ├── vercel.svg
 │   └── window.svg
 ├── README.md
+├── scripts
+│   └── crawler.ts
+├── structure.txt
 ├── tsconfig.json
 └── types
     └── next-auth.d.ts
 
-87 directories, 153 files
+86 directories, 149 files

@@ -1,0 +1,237 @@
+.
+├── app
+│   ├── about
+│   │   └── page.tsx
+│   ├── admin
+│   │   ├── audit
+│   │   │   └── page.tsx
+│   │   ├── dashboard
+│   │   │   └── page.tsx
+│   │   ├── datasets
+│   │   │   ├── [id]
+│   │   │   │   └── page.tsx
+│   │   │   └── page.tsx
+│   │   ├── domains
+│   │   │   └── page.tsx
+│   │   ├── firms
+│   │   │   └── page.tsx
+│   │   ├── layout.tsx
+│   │   ├── logs
+│   │   │   └── page.tsx
+│   │   ├── page.tsx
+│   │   ├── payments
+│   │   │   └── page.tsx
+│   │   ├── reports
+│   │   │   └── page.tsx
+│   │   ├── settings
+│   │   │   └── page.tsx
+│   │   └── users
+│   │       └── page.tsx
+│   ├── api
+│   │   ├── admin
+│   │   │   ├── audit-logs
+│   │   │   │   └── route.ts
+│   │   │   ├── company-users
+│   │   │   │   └── route.ts
+│   │   │   ├── create-user
+│   │   │   │   └── route.ts
+│   │   │   ├── dataset
+│   │   │   │   └── [id]
+│   │   │   ├── logs
+│   │   │   │   └── route.ts
+│   │   │   ├── payments
+│   │   │   │   ├── create
+│   │   │   │   └── route.ts
+│   │   │   ├── update-role
+│   │   │   │   └── route.ts
+│   │   │   └── users
+│   │   │       ├── create
+│   │   │       └── route.ts
+│   │   ├── audit-log
+│   │   │   └── route.ts
+│   │   ├── auth
+│   │   │   ├── [...nextauth]
+│   │   │   │   └── route.ts
+│   │   │   └── send-verification-email
+│   │   │       └── route.ts
+│   │   ├── contact
+│   │   │   └── route.ts
+│   │   ├── crawl
+│   │   │   ├── apis
+│   │   │   │   └── route.ts
+│   │   │   └── route.ts
+│   │   ├── dataset
+│   │   │   ├── [id]
+│   │   │   │   └── route.ts
+│   │   │   └── route.ts
+│   │   ├── log
+│   │   │   └── route.ts
+│   │   ├── signup
+│   │   │   └── route.ts
+│   │   └── verify-email
+│   │       └── route.ts
+│   ├── company
+│   │   └── page.tsx
+│   ├── components
+│   │   ├── admin
+│   │   │   ├── AuditTrailPageWrapper.tsx
+│   │   │   ├── CreateUserForm.tsx
+│   │   │   ├── DeleteButton.tsx
+│   │   │   ├── LevelBadge.tsx
+│   │   │   ├── LogsPageWrapper.tsx
+│   │   │   └── PaymentForm.tsx
+│   │   ├── Adminpanel.tsx
+│   │   ├── AdminUserTable.tsx
+│   │   ├── ClientLayout.tsx
+│   │   ├── ClientWrapper.tsx
+│   │   ├── ComponentRepository.tsx
+│   │   ├── entity-registry
+│   │   │   ├── EntityCard.tsx
+│   │   │   └── EntityRegistryPage.tsx
+│   │   ├── Footer.tsx
+│   │   ├── Header.tsx
+│   │   ├── HeaderBar.tsx
+│   │   ├── landing-page.tsx
+│   │   ├── LogTable.tsx
+│   │   ├── MainBody.tsx
+│   │   ├── ModuleList.tsx
+│   │   ├── Navbar.tsx
+│   │   ├── PageMapping.tsx
+│   │   ├── PipelineView.tsx
+│   │   ├── ProductLayout.tsx
+│   │   ├── ProductStats.tsx
+│   │   ├── ProductTopbar.tsx
+│   │   ├── Sidebar.tsx
+│   │   ├── SignInForm.tsx
+│   │   ├── SignUpForm.tsx
+│   │   ├── SignUpPageContent.tsx
+│   │   ├── TrustBadges.jsx
+│   │   ├── ui
+│   │   │   ├── badge.tsx
+│   │   │   ├── button.tsx
+│   │   │   ├── card.tsx
+│   │   │   ├── input.tsx
+│   │   │   └── label.tsx
+│   │   ├── UserActions.tsx
+│   │   └── VerifyEmailContent.tsx
+│   ├── contact
+│   │   └── page.tsx
+│   ├── context
+│   │   └── SidebarContext.tsx
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── page.tsx
+│   ├── pricing
+│   │   └── page.tsx
+│   ├── product
+│   │   ├── admin
+│   │   │   ├── create-user
+│   │   │   │   └── page.tsx
+│   │   │   ├── layout.tsx
+│   │   │   ├── page.tsx
+│   │   │   └── super
+│   │   │       └── page.tsx
+│   │   ├── apis
+│   │   │   └── page.tsx
+│   │   ├── data-entry
+│   │   │   └── page.tsx
+│   │   ├── dataset
+│   │   │   ├── DatasetForm.tsx
+│   │   │   └── page.tsx
+│   │   ├── document
+│   │   │   └── page.tsx
+│   │   ├── elements
+│   │   │   └── page.tsx
+│   │   ├── entity-registry
+│   │   │   └── page.tsx
+│   │   ├── faq
+│   │   │   └── page.tsx
+│   │   ├── layout.tsx
+│   │   ├── mapping
+│   │   │   └── page.tsx
+│   │   ├── page.tsx
+│   │   ├── pages
+│   │   │   ├── MainPages.tsx
+│   │   │   └── page.tsx
+│   │   ├── pipeline
+│   │   │   └── page.tsx
+│   │   └── support
+│   │       └── page.tsx
+│   ├── signin
+│   │   └── page.tsx
+│   ├── signup
+│   │   └── page.tsx
+│   ├── solutions
+│   │   └── page.tsx
+│   ├── superadmin
+│   │   └── page.tsx
+│   └── verify-email
+│       └── page.tsx
+├── components.json
+├── docs
+│   ├── file-structure.txt
+│   ├── kimlik-dogrulama-akisi.md
+│   ├── prisma-models.md
+│   └── veritabani-erisimi.md
+├── lib
+│   ├── admin.ts
+│   ├── auth.ts
+│   ├── dataset.ts
+│   ├── logging.ts
+│   ├── prisma.ts
+│   ├── stripe.ts
+│   └── utils.ts
+├── middleware.ts
+├── next-env.d.ts
+├── next.config.js
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── prisma
+│   ├── migrations
+│   │   ├── 20250527235336_init
+│   │   │   └── migration.sql
+│   │   ├── 20250531230527_add_password_to_user
+│   │   │   └── migration.sql
+│   │   ├── 20250601172225_add_log_model
+│   │   │   └── migration.sql
+│   │   ├── 20250603190627_add_username_to_user
+│   │   │   └── migration.sql
+│   │   ├── 20250608143703_add_email_verification
+│   │   │   └── migration.sql
+│   │   ├── 20250608144825_add_email_verification
+│   │   │   └── migration.sql
+│   │   ├── 20250608145736_update_verification_token_model
+│   │   │   └── migration.sql
+│   │   ├── 20250609133225_add_user_dataset
+│   │   │   └── migration.sql
+│   │   ├── 20250609202946_add_audit_log_relation
+│   │   │   └── migration.sql
+│   │   ├── 20250612085546_add_entity_model
+│   │   │   └── migration.sql
+│   │   └── migration_lock.toml
+│   ├── schema.prisma
+│   └── seed.js
+├── public
+│   ├── avatar.png
+│   ├── docs
+│   │   ├── admin-panel-roadmap.md
+│   │   ├── favicon.png
+│   │   ├── PTech_Profile.png
+│   │   └── pTech-company-profile.pdf
+│   ├── favicon.ico
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── impact-graph-mock.png
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── window.svg
+├── README.md
+├── scripts
+│   └── crawler.ts
+├── structure.txt
+├── tsconfig.json
+└── types
+    └── next-auth.d.ts
+
+86 directories, 149 files

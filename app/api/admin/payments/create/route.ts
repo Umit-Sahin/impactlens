@@ -1,7 +1,7 @@
 // 📄 File: app/api/admin/payments/create/route.ts
 
 import { NextRequest, NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe";
+import { stripe } from "@lib/stripe";
 
 
 

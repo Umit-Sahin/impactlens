@@ -1,6 +1,6 @@
 // lib/admin.ts
 
-import prisma from "@/lib/prisma";
+import prisma from "@lib/prisma";
 
 // ✅ Dataset'leri kullanıcı bilgileriyle birlikte getir
 export async function getAllDatasetsWithUserInfo() {

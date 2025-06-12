@@ -4,7 +4,7 @@
 
 import Sidebar from "./Sidebar";
 import ProductTopbar from "./ProductTopbar";
-import { useSidebar } from "@/app/context/SidebarContext";
+import { useSidebar } from "@/context/SidebarContext";
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 

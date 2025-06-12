@@ -1,6 +1,6 @@
 //lib/dataset.ts
 
-import prisma from "@/lib/prisma";
+import prisma from "@lib/prisma";
 
 export async function getUserDataset(userId: string) {
   const dataset = await prisma.userDataset.findUnique({

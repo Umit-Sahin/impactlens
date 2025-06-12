@@ -1,9 +1,9 @@
 //app/product/dataset/page.tsx
 
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { authOptions } from "@lib/auth";
 import { redirect } from "next/navigation";
-import { getUserDataset } from "@/lib/dataset";
+import { getUserDataset } from "@lib/dataset";
 import { DatasetForm } from "./DatasetForm"; 
 
 export default async function DatasetPage() {

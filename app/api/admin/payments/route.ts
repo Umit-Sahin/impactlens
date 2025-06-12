@@ -1,10 +1,10 @@
 // app/api/admin/payments/route.ts
 
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+import prisma from "@lib/prisma";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { stripe } from "@/lib/stripe";
+import { authOptions } from "@lib/auth";
+import { stripe } from "@lib/stripe";
 
 // GET: List all payments (only for SUPER_ADMIN)
 export async function GET(req: NextRequest) {

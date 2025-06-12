@@ -4,7 +4,7 @@
 
 import React, { useState, useEffect } from 'react';
 import EntityCard, { EntityCardProps } from 'app/components/entity-registry/EntityCard';
-import { getAllEntities } from '@/lib/admin'; // örnek fetch fonksiyonu, kendi verine göre uyarlayabilirsin
+import { getAllEntities } from '@lib/admin'; // örnek fetch fonksiyonu, kendi verine göre uyarlayabilirsin
 
 interface RawEntity {
   id: string;

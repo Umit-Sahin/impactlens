@@ -4,7 +4,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import MainBody from "@/app/components/MainBody";
+import MainBody from "@/components/MainBody";
 
 export default function PricingPage() {
   const router = useRouter();

@@ -15,8 +15,10 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
+    "baseUrl": ".",              // ✅ Olmazsa "app/*" çözülemez
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["app/*"],           // ✅ Tüm '@/...' importlarını destekler
+      "@lib/*": ["lib/*"] 
     },
     "plugins": [
       {

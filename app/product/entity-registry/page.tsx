@@ -1,4 +1,4 @@
-import EntityRegistryPage from "@/app/components/entity-registry/EntityRegistryPage";
+import EntityRegistryPage from "@/components/entity-registry/EntityRegistryPage";
 
 export default function Page() {
   return <EntityRegistryPage />;

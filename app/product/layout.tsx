@@ -2,8 +2,8 @@
 
 'use client';
 
-import { SidebarProvider } from '@/app/context/SidebarContext';
-import ProductLayout from '@/app/components/ProductLayout';
+import { SidebarProvider } from '@/context/SidebarContext';
+import ProductLayout from '@/components/ProductLayout';
 
 export default function ProductSectionLayout({ children }: { children: React.ReactNode }) {
   return (

@@ -1,11 +1,11 @@
 // app/admin/datasets/page.tsx
 
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { authOptions } from "@lib/auth";
 import { redirect } from "next/navigation";
-import { getAllDatasetsWithUserInfo } from "@/lib/admin";
+import { getAllDatasetsWithUserInfo } from "@lib/admin";
 import Link from "next/link";
-import DeleteButton from "@/app/components/admin/DeleteButton";
+import DeleteButton from "@/components/admin/DeleteButton";
 
 export default async function AdminDatasetsPage() {
   const session = await getServerSession(authOptions);

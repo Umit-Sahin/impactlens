@@ -4,7 +4,7 @@
 
 import { ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
-import Navbar from '@/app/components/Navbar';
+import Navbar from '@/components/Navbar';
 import { SessionProvider } from 'next-auth/react';
 
 export default function ClientWrapper({ children }: { children: ReactNode }) {
