@@ -1,4 +1,4 @@
-import ProductLayout from '@/app/components/ProductLayout';
+import ProductLayout from '@/components/ProductLayout';
 
 export default function SupportPage() {
   return (

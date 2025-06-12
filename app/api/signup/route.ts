@@ -2,7 +2,7 @@
 
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import prisma from "@/lib/prisma";
+import prisma from "@lib/prisma";
 import { Resend } from "resend";
 import crypto from "crypto";
 

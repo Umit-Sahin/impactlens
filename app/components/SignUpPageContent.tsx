@@ -3,7 +3,7 @@
 'use client';
 
 import { useSearchParams, useRouter } from 'next/navigation';
-import SignUpForm from '@/app/components/SignUpForm';
+import SignUpForm from '@/components/SignUpForm';
 import classNames from 'classnames';
 
 export default function SignUpPageContent() {

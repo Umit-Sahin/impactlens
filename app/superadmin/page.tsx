@@ -1,4 +1,4 @@
-import AdminUserTable from "@/app/components/AdminUserTable";
+import AdminUserTable from "@/components/AdminUserTable";
 
 export default function SuperAdminPage() {
   return (

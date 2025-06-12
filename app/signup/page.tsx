@@ -1,7 +1,7 @@
 // app/signup/page.tsx
 
 import { Suspense } from 'react';
-import SignUpPageContent from '@/app/components/SignUpPageContent';
+import SignUpPageContent from '@/components/SignUpPageContent';
 
 export default function SignUpPage() {
   return (

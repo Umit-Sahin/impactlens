@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Briefcase, Target, Users } from "lucide-react";
-import Header from "@/app/components/Header";
+import Header from "@/components/Header";
 
 
 export default function AboutPage() {

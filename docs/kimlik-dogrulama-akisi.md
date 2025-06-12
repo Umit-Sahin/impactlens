@@ -81,7 +81,7 @@ API route’lar için kullanıcı oturum doğrulaması gereklidir (getServerSess
 🧭 Oturum Bilgisine Erişim
 Sunucu Tarafında
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/authOptions";
+import { authOptions } from "@lib/authOptions";
 
 const session = await getServerSession(authOptions);
 

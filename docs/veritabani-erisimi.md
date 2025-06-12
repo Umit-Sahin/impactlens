@@ -32,7 +32,7 @@ DATABASE_URL="postgresql://username:password@localhost:5432/impactlens"
 
 📥 Prisma Client Erişimi
 
-Veritabanı işlemleri için @/lib/prisma.ts dosyasındaki prisma örneği kullanılır:
+Veritabanı işlemleri için @lib/prisma.ts dosyasındaki prisma örneği kullanılır:
 // lib/prisma.ts
 import { PrismaClient } from "@prisma/client";
 
@@ -48,7 +48,7 @@ if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
 🔍 CRUD İşlemleri
 Prisma ile CRUD işlemleri çok basittir. Örnek: kullanıcı oluşturma
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@lib/prisma";
 
 await prisma.user.create({
   data: {
