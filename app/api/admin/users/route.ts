@@ -1,3 +1,5 @@
+//app/api/admin/users/route.tsx
+
 // Backend endpoint test checklist:
 // ✅ /api/admin/users GET → sadece SUPER_ADMIN erişir → kullanıcı listesi döner
 // ✅ /api/admin/users POST → sadece SUPER_ADMIN erişir → rol günceller

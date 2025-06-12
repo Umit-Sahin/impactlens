@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "target": "es2016",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -36,9 +32,10 @@
     "next-env.d.ts",
     "types",
     "types/**/*.d.ts",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts" // ⛔️ otomatik ekleniyor ama önemi kalmadı
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    ".next" // ✅ bununla .next/types dosyaları etkisizleşir
   ]
 }
