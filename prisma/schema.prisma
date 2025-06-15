@@ -23,13 +23,13 @@ enum Plan {
 model User {
   id               String    @id @default(cuid())
   name             String
-  username         String?   @unique
+  surname          String   
   email            String    @unique
-  password         String?
+  password         String
   role             Role      @default(USER)
   isEmailVerified  Boolean   @default(false)
   emailVerifyToken String?   @unique
-  emailVerified    DateTime?
+  emailVerifiedAt  DateTime?
 
   dataset UserDataset?
 

@@ -11,45 +11,49 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, email, username, password } = body;
+    const { name, surname, email, password } = body;
 
-    if (!name || !email || !username || !password) {
+    // Zorunlu alanlar kontrolü
+    if (!name || !surname || !email || !password) {
       return NextResponse.json({ message: "All fields are required." }, { status: 400 });
     }
 
-    const existingUser = await prisma.user.findFirst({
-      where: {
-        OR: [{ email }, { username }],
-      },
-    });
-
+    // Mevcut kullanıcı kontrolü
+    const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
-      return NextResponse.json(
-        { message: "User with this email or username already exists." },
-        { status: 409 }
-      );
+      return NextResponse.json({ message: "Email is already registered." }, { status: 409 });
     }
 
+    // Şifreyi hashle
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Benzersiz token üret
     const emailVerifyToken = crypto.randomBytes(32).toString("hex");
 
+    // Kullanıcı oluştur
     const user = await prisma.user.create({
       data: {
         name,
+        surname,
         email,
-        username,
         password: hashedPassword,
         emailVerifyToken,
       },
     });
 
+    // Doğrulama URL'si
     const verifyUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/verify-email?token=${emailVerifyToken}`;
 
+    // Doğrulama e-postası gönder
     await resend.emails.send({
       from: "noreply@impactlens.co",
       to: email,
       subject: "Verify your email",
-      html: `<p>Hello ${name},</p><p>Please verify your email by clicking the link below:</p><p><a href="${verifyUrl}">${verifyUrl}</a></p>`,
+      html: `
+        <p>Hello ${name},</p>
+        <p>Please verify your email address by clicking the link below:</p>
+        <p><a href="${verifyUrl}">${verifyUrl}</a></p>
+      `,
     });
 
     return NextResponse.json({ message: "User created. Please check your email to verify." });

@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    container_name: impactlens_postgres_prod
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: impact_admin
+      POSTGRES_PASSWORD: CaykarA61!SQL!
+      POSTGRES_DB: impactlens_prod
+    volumes:
+      - impactlens_pgdata:/var/lib/postgresql/data
+
+volumes:
+  impactlens_pgdata:
