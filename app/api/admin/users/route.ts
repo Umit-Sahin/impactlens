@@ -1,7 +1,7 @@
-//app/api/admin/users/route.tsx
+// 📄 app/api/admin/users/route.ts
 
 // Backend endpoint test checklist:
-// ✅ /api/admin/users GET → sadece SUPER_ADMIN erişir → kullanıcı listesi döner
+// ✅ /api/admin/users GET  → SUPER_ADMIN & ADMIN erişimi → kullanıcı listesi döner
 // ✅ /api/admin/users POST → sadece SUPER_ADMIN erişir → rol günceller
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -18,20 +18,41 @@ export async function GET() {
 
   const { role, id } = session.user;
 
+  const baseSelect = {
+    id: true,
+    name: true,
+    surname: true,
+    email: true,
+    role: true,
+    isWhitelisted: true,
+    createdAt: true,
+    company: {
+      select: { name: true },
+    },
+  };
+
+  // 🔐 SUPER_ADMIN → tüm kullanıcılar
   if (role === 'SUPER_ADMIN') {
     const users = await prisma.user.findMany({
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        createdAt: true,
-      },
+      select: baseSelect,
       orderBy: { createdAt: 'desc' },
     });
-    return NextResponse.json(users);
+
+    const formatted = users.map((user) => ({
+      id: user.id,
+      name: user.name,
+      surname: user.surname,
+      email: user.email,
+      role: user.role,
+      isWhitelisted: user.isWhitelisted,
+      createdAt: user.createdAt,
+      companyName: user.company?.name ?? null,
+    }));
+
+    return NextResponse.json(formatted);
   }
 
+  // 🔐 ADMIN → sadece kendi şirketindekiler
   if (role === 'ADMIN') {
     const admin = await prisma.user.findUnique({
       where: { id },
@@ -44,22 +65,26 @@ export async function GET() {
 
     const users = await prisma.user.findMany({
       where: { companyId: admin.companyId },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        createdAt: true,
-      },
+      select: baseSelect,
       orderBy: { createdAt: 'desc' },
     });
 
-    return NextResponse.json(users);
+    const formatted = users.map((user) => ({
+      id: user.id,
+      name: user.name,
+      surname: user.surname,
+      email: user.email,
+      role: user.role,
+      isWhitelisted: user.isWhitelisted,
+      createdAt: user.createdAt,
+      companyName: user.company?.name ?? null,
+    }));
+
+    return NextResponse.json(formatted);
   }
 
   return NextResponse.json({ message: 'Unauthorized: Invalid role' }, { status: 403 });
 }
-
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -87,16 +112,24 @@ export async function POST(req: NextRequest) {
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: { role: newRole },
+      select: {
+        id: true,
+        name: true,
+        surname: true,
+        email: true,
+        role: true,
+        isWhitelisted: true,
+        company: { select: { name: true } },
+        createdAt: true,
+      },
     });
 
-    return NextResponse.json(updatedUser);
+    return NextResponse.json({
+      ...updatedUser,
+      companyName: updatedUser.company?.name ?? null,
+    });
   } catch (error) {
     console.error('[UPDATE_ROLE_ERROR]', error);
     return NextResponse.json({ message: 'Failed to update role' }, { status: 500 });
   }
 }
-
-// ⚠️ Test sırasında: 
-// - Frontend isteği header’a auth cookie taşıyor mu kontrol et
-// - GET ve POST endpoint’lerinin çalışmasını Postman veya curl ile deneyebilirsin
-// - Console’daki hata mesajlarını dikkatle izle
