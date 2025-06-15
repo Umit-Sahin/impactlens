@@ -1,9 +1,12 @@
--- AlterTable
-ALTER TABLE "User" DROP COLUMN "emailVerifiedAt",
-DROP COLUMN "surname",
-ADD COLUMN     "emailVerified" TIMESTAMP(3),
-ADD COLUMN     "username" TEXT;
+-- ✅ cardLast4 alanını Payment tablosuna ekle
+ALTER TABLE "Payment" ADD COLUMN IF NOT EXISTS "cardLast4" TEXT;
 
--- CreateIndex
-CREATE UNIQUE INDEX "User_username_key" ON "User"("username" ASC);
-
+-- ✅ PaymentLog tablosunu oluştur
+CREATE TABLE IF NOT EXISTS "PaymentLog" (
+  "id" TEXT PRIMARY KEY DEFAULT gen_random_uuid(),
+  "eventType" TEXT NOT NULL,
+  "userEmail" TEXT,
+  "status" TEXT NOT NULL,
+  "raw" JSONB NOT NULL,
+  "createdAt" TIMESTAMP NOT NULL DEFAULT NOW()
+);

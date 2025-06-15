@@ -14,7 +14,7 @@ model User {
   surname             String
   password            String
   role                Role         @default(USER)
-  isWhitelisted      Boolean     @default(false)
+  isWhitelisted       Boolean      @default(false)
 
   // Erişim & Güvenlik
   isActive            Boolean      @default(true)
@@ -113,9 +113,21 @@ model Payment {
   currency        String   @default("USD")
   status          String
   stripePaymentId String   @unique
+  cardLast4       String?
   createdAt       DateTime @default(now())
   user            User     @relation(fields: [userId], references: [id])
+  
 }
+
+model PaymentLog {
+  id        String   @id @default(uuid())
+  eventType String
+  userEmail String
+  status    String
+  raw       Json
+  createdAt DateTime @default(now())
+}
+
 
 model Entity {
   id          String   @id @default(cuid())
