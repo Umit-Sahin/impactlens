@@ -56,6 +56,7 @@ model User {
   auditLogs           AuditLog[]
   logs                Log[]
   payments            Payment[]
+  paymentLogs         PaymentLog[]
   dataset             UserDataset?
 }
 
@@ -120,13 +121,19 @@ model Payment {
 }
 
 model PaymentLog {
-  id        String   @id @default(uuid())
-  eventType String
-  userEmail String
-  status    String
-  raw       Json
-  createdAt DateTime @default(now())
+  id         String   @id @default(uuid())
+
+  eventType  String
+  status     String
+  raw        Json
+
+  userId     String?    // Foreign key (nullable)
+  user       User?      @relation(fields: [userId], references: [id])
+  
+  userEmail  String?    // Optional, sadece kolay erişim için
+  createdAt  DateTime   @default(now())
 }
+
 
 
 model Entity {
