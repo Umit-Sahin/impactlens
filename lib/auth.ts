@@ -6,7 +6,7 @@ import GitHubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import prisma from '@lib/prisma';
 import { compare } from 'bcryptjs';
-import { Role } from '@prisma/client';
+import { Role, Plan } from '@prisma/client';
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -24,9 +24,7 @@ export const authOptions: AuthOptions = {
           where: { email: credentials.email },
           include: {
             company: {
-              select: {
-                plan: true,
-              },
+              select: { plan: true },
             },
           },
         });
@@ -40,8 +38,9 @@ export const authOptions: AuthOptions = {
           id: user.id,
           name: user.name,
           email: user.email,
-          role: user.role as Role,
-          plan: user.company?.plan,
+          role: user.role,
+          plan: user.company?.plan as Plan | undefined,
+          hasActivePayment: user.hasActivePayment,
         };
       },
     }),
@@ -57,16 +56,18 @@ export const authOptions: AuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.role = (user as { role: Role }).role;
-        token.plan = (user as { plan: string }).plan;
+        token.role = (user as any).role;
+        token.plan = (user as any).plan;
+        token.hasActivePayment = (user as any).hasActivePayment;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
-        session.user.role = token.role as string;
-        session.user.plan = token.plan as string;
+        session.user.role = token.role as Role;
+        session.user.plan = token.plan as Plan;
+        (session.user as any).hasActivePayment = token.hasActivePayment;
       }
       return session;
     },
@@ -76,6 +77,6 @@ export const authOptions: AuthOptions = {
   },
 };
 
-// ✅ EKLENDİ: Server-side auth fonksiyonu
+// ✅ Server-side session helper
 import { getServerSession } from 'next-auth';
 export const auth = () => getServerSession(authOptions);

@@ -1,6 +1,6 @@
 // types/next-auth.d.ts
 
-import { Role } from '@prisma/client';
+import { Role, Plan } from '@prisma/client';
 
 declare module "next-auth" {
   interface Session {
@@ -9,8 +9,10 @@ declare module "next-auth" {
       name?: string | null;
       email?: string | null;
       image?: string | null;
-      role?: string;
-      plan?: string;
+      role?: Role;
+      plan?: Plan;
+      hasActivePayment?: boolean;
+      isWhitelisted?: boolean;
     };
   }
 
@@ -19,15 +21,19 @@ declare module "next-auth" {
     name?: string | null;
     email?: string | null;
     image?: string | null;
-    role?: string;
-    plan?: string;
+    role?: Role;
+    plan?: Plan;
+    hasActivePayment?: boolean;
+    isWhitelisted?: boolean;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
     id?: string;
-    role?: string;
-    plan?: string;
+    role?: Role;
+    plan?: Plan;
+    hasActivePayment?: boolean;
+    isWhitelisted?: boolean;
   }
 }

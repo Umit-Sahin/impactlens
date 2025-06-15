@@ -5,7 +5,6 @@ import { auth } from '@lib/auth';
 import { redirect } from 'next/navigation';
 import AdminHeader from './components/AdminHeader';
 import AdminNav from './components/AdminNav';
-import AdminFilters from './components/AdminFilters';
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
   const session = await auth();
@@ -18,7 +17,6 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     <div className="min-h-screen bg-gray-50">
       <AdminHeader />
       <AdminNav />
-      <AdminFilters />
       <main className="p-8 space-y-8">{children}</main>
     </div>
   );

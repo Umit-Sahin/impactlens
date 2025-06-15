@@ -1,9 +1,24 @@
 .
+├── .DS_Store
+├── .env
+├── .env.production
+├── .gitignore
+├── .vscode
+│   ├── jsconfig.json
+│   ├── launch.json
+│   └── main.js
 ├── app
 │   ├── about
 │   │   └── page.tsx
 │   ├── admin
 │   │   ├── audit
+│   │   │   └── page.tsx
+│   │   ├── components
+│   │   │   ├── AdminFilters.tsx
+│   │   │   ├── AdminHeader.tsx
+│   │   │   ├── AdminNav.tsx
+│   │   │   └── UsersTable.tsx
+│   │   ├── create-user
 │   │   │   └── page.tsx
 │   │   ├── dashboard
 │   │   │   └── page.tsx
@@ -66,10 +81,18 @@
 │   │   │   └── route.ts
 │   │   ├── log
 │   │   │   └── route.ts
+│   │   ├── payment
+│   │   │   ├── checkout
+│   │   │   │   └── route.ts
+│   │   │   └── webhook
+│   │   │       └── route.ts
 │   │   ├── signup
 │   │   │   └── route.ts
 │   │   └── verify-email
 │   │       └── route.ts
+│   ├── auth
+│   │   └── verified
+│   │       └── page.tsx
 │   ├── company
 │   │   └── page.tsx
 │   ├── components
@@ -120,6 +143,12 @@
 │   │   └── SidebarContext.tsx
 │   ├── globals.css
 │   ├── layout.tsx
+│   ├── onboarding
+│   │   ├── payment
+│   │   │   ├── page.tsx
+│   │   │   └── StripePayButton.tsx
+│   │   └── success
+│   │       └── page.tsx
 │   ├── page.tsx
 │   ├── pricing
 │   │   └── page.tsx
@@ -167,12 +196,15 @@
 │   │   └── page.tsx
 │   └── verify-email
 │       └── page.tsx
+├── bcrypt-test.js
 ├── components.json
+├── docker-compose.yml
 ├── docs
-│   ├── file-structure.txt
 │   ├── kimlik-dogrulama-akisi.md
 │   ├── prisma-models.md
+│   ├── structure.txt
 │   └── veritabani-erisimi.md
+├── file-structure.txt
 ├── lib
 │   ├── admin.ts
 │   ├── auth.ts
@@ -182,6 +214,7 @@
 │   ├── stripe.ts
 │   └── utils.ts
 ├── middleware.ts
+├── migration.sql
 ├── next-env.d.ts
 ├── next.config.js
 ├── package-lock.json
@@ -209,6 +242,12 @@
 │   │   │   └── migration.sql
 │   │   ├── 20250612085546_add_entity_model
 │   │   │   └── migration.sql
+│   │   ├── 20250612223614_add_company_plan
+│   │   │   └── migration.sql
+│   │   ├── 20250615114850_extend_user_model
+│   │   │   └── migration.sql
+│   │   ├── 20250615120756_add_is_whitelisted
+│   │   │   └── migration.sql
 │   │   └── migration_lock.toml
 │   ├── schema.prisma
 │   └── seed.js
@@ -234,4 +273,4 @@
 └── types
     └── next-auth.d.ts
 
-86 directories, 149 files
+100 directories, 174 files
