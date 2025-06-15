@@ -1,26 +1,40 @@
 // app/components/admin/PaymentForm.tsx
 
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function PaymentForm() {
-  const [amount, setAmount] = useState("");
-  const [email, setEmail] = useState("");
+  const [amount, setAmount] = useState('');
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await fetch("/api/admin/payments", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount, email }),
-    });
-    if (res.ok) {
-      alert("Payment created!");
-      setAmount("");
-      setEmail("");
-    } else {
-      alert("Error submitting payment.");
+    setLoading(true);
+    setMessage(null);
+
+    try {
+      const res = await fetch('/api/admin/payments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount, email }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setMessage('✅ Payment created!');
+        setAmount('');
+        setEmail('');
+      } else {
+        setMessage(`❌ ${data?.error || 'Error submitting payment.'}`);
+      }
+    } catch (err) {
+      setMessage('❌ Network error.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -46,12 +60,18 @@ export default function PaymentForm() {
           required
         />
       </div>
+
       <button
         type="submit"
-        className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+        className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 disabled:opacity-50"
+        disabled={loading}
       >
-        Submit Payment
+        {loading ? 'Submitting...' : 'Submit Payment'}
       </button>
+
+      {message && (
+        <p className="text-sm mt-2">{message}</p>
+      )}
     </form>
   );
 }
