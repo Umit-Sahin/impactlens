@@ -13,8 +13,8 @@ export default function SignUpForm({ selectedPlan }: SignUpFormProps) {
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: '',
+    surname: '',
     email: '',
-    username: '',
     password: '',
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -66,24 +66,24 @@ export default function SignUpForm({ selectedPlan }: SignUpFormProps) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Email</label>
+        <label className="block text-sm font-medium text-gray-700">Surname</label>
         <input
-          name="email"
-          type="email"
+          name="surname"
+          type="text"
           required
-          value={formData.email}
+          value={formData.surname}
           onChange={handleChange}
           className="mt-1 block w-full px-4 py-2 border rounded-md focus:ring-purple-500 focus:border-purple-500"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Username</label>
+        <label className="block text-sm font-medium text-gray-700">Email</label>
         <input
-          name="username"
-          type="text"
+          name="email"
+          type="email"
           required
-          value={formData.username}
+          value={formData.email}
           onChange={handleChange}
           className="mt-1 block w-full px-4 py-2 border rounded-md focus:ring-purple-500 focus:border-purple-500"
         />

@@ -12,15 +12,13 @@ import prisma from '@lib/prisma';
 export async function GET() {
   const session = await getServerSession(authOptions);
 
-  if (!session) {
-    return NextResponse.json({ message: 'Unauthorized: No session' }, { status: 401 });
+  if (!session || !session.user) {
+    return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 
-  if (session.user?.role !== 'SUPER_ADMIN') {
-    return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
-  }
+  const { role, id } = session.user;
 
-  try {
+  if (role === 'SUPER_ADMIN') {
     const users = await prisma.user.findMany({
       select: {
         id: true,
@@ -29,17 +27,39 @@ export async function GET() {
         role: true,
         createdAt: true,
       },
-      orderBy: {
-        createdAt: 'desc',
+      orderBy: { createdAt: 'desc' },
+    });
+    return NextResponse.json(users);
+  }
+
+  if (role === 'ADMIN') {
+    const admin = await prisma.user.findUnique({
+      where: { id },
+      select: { companyId: true },
+    });
+
+    if (!admin?.companyId) {
+      return NextResponse.json([], { status: 200 });
+    }
+
+    const users = await prisma.user.findMany({
+      where: { companyId: admin.companyId },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true,
       },
+      orderBy: { createdAt: 'desc' },
     });
 
     return NextResponse.json(users);
-  } catch (error) {
-    console.error('[GET_USERS_ERROR]', error);
-    return NextResponse.json({ message: 'Failed to fetch users' }, { status: 500 });
   }
+
+  return NextResponse.json({ message: 'Unauthorized: Invalid role' }, { status: 403 });
 }
+
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
