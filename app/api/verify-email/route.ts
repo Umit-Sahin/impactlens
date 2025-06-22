@@ -1,5 +1,4 @@
-// app/api/verify-email/route.ts
-
+// 📄 app/api/verify-email/route.ts
 
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@lib/prisma";
@@ -28,11 +27,13 @@ export async function GET(req: NextRequest) {
       data: {
         isEmailVerified: true,
         emailVerifiedAt: new Date(),
-        emailVerifyToken: null, // tekrar kullanılmasın
+        emailVerifyToken: null, // Token tekrar kullanılmasın
       },
     });
 
-    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_APP_URL}/auth/verified`);
+    // ✅ Sabit fallback URL – güvenlidir (SOC 2 uyumlu)
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://impactlens.co";
+    return NextResponse.redirect(`${baseUrl}/auth/verified`);
   } catch (error) {
     console.error("Email verification error:", error);
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });

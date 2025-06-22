@@ -4,6 +4,9 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import prisma from "@lib/prisma";
 
+console.log("🟡 Send verification email API triggered.");
+
+
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
@@ -30,10 +33,14 @@ export async function POST(req: Request) {
 
     // ✅ Güvenli fallback destekli baseUrl tanımı
     const baseUrl =
-      process.env.NEXTAUTH_URL ??
-      (process.env.NODE_ENV === "production"
-        ? "https://impactlens.co"
-        : "http://localhost:3000");
+  process.env.NEXTAUTH_URL ||
+  process.env.NEXT_PUBLIC_APP_URL || // fallback
+  (process.env.NODE_ENV === 'production'
+    ? 'https://impactlens.co'
+    : 'http://localhost:3000');
+
+
+    console.log('baseUrl:', baseUrl); // TODO: Daha sonra silinecek
 
     const verificationUrl = `${baseUrl}/verify-email?token=${token}`;
 
