@@ -10,11 +10,32 @@
 ├── app
 │   ├── about
 │   │   └── page.tsx
-│   ├── admin
+│   ├── admin-company
+│   │   ├── components
+│   │   │   ├── AdminHeader.tsx
+│   │   │   └── AdminNav.tsx
+│   │   ├── dashboard
+│   │   │   └── page.tsx
+│   │   ├── datasets
+│   │   │   ├── [id]
+│   │   │   │   └── page.tsx
+│   │   │   └── page.tsx
+│   │   ├── domains
+│   │   │   └── page.tsx
+│   │   ├── layout.tsx
+│   │   ├── payments
+│   │   │   ├── page.tsx
+│   │   │   ├── PaymentDetailsDrawer.tsx
+│   │   │   ├── PaymentHistoryTable.tsx
+│   │   │   └── PaymentsTable.tsx
+│   │   ├── settings
+│   │   │   └── page.tsx
+│   │   └── users
+│   │       └── page.tsx
+│   ├── admin-super
 │   │   ├── audit
 │   │   │   └── page.tsx
 │   │   ├── components
-│   │   │   ├── AdminFilters.tsx
 │   │   │   ├── AdminHeader.tsx
 │   │   │   ├── AdminNav.tsx
 │   │   │   └── UsersTable.tsx
@@ -35,7 +56,10 @@
 │   │   │   └── page.tsx
 │   │   ├── page.tsx
 │   │   ├── payments
-│   │   │   └── page.tsx
+│   │   │   ├── page.tsx
+│   │   │   ├── PaymentDetailsDrawer.tsx
+│   │   │   ├── PaymentHistoryTable.tsx
+│   │   │   └── PaymentsTable.tsx
 │   │   ├── reports
 │   │   │   └── page.tsx
 │   │   ├── settings
@@ -53,7 +77,9 @@
 │   │   │   ├── dataset
 │   │   │   │   └── [id]
 │   │   │   ├── logs
-│   │   │   │   └── route.ts
+│   │   │   │   ├── payment
+│   │   │   │   ├── route.ts
+│   │   │   │   └── system
 │   │   │   ├── payments
 │   │   │   │   ├── create
 │   │   │   │   └── route.ts
@@ -61,6 +87,13 @@
 │   │   │   │   └── route.ts
 │   │   │   └── users
 │   │   │       ├── create
+│   │   │       ├── route.ts
+│   │   │       └── toggle-whitelist
+│   │   ├── admin-company
+│   │   │   └── payments
+│   │   │       └── route.ts
+│   │   ├── admin-super
+│   │   │   └── domains
 │   │   │       └── route.ts
 │   │   ├── audit-log
 │   │   │   └── route.ts
@@ -68,6 +101,9 @@
 │   │   │   ├── [...nextauth]
 │   │   │   │   └── route.ts
 │   │   │   └── send-verification-email
+│   │   │       └── route.ts
+│   │   ├── company
+│   │   │   └── domains
 │   │   │       └── route.ts
 │   │   ├── contact
 │   │   │   └── route.ts
@@ -82,6 +118,8 @@
 │   │   ├── log
 │   │   │   └── route.ts
 │   │   ├── payment
+│   │   │   ├── [id]
+│   │   │   │   └── route.ts
 │   │   │   ├── checkout
 │   │   │   │   └── route.ts
 │   │   │   └── webhook
@@ -93,6 +131,8 @@
 │   ├── auth
 │   │   └── verified
 │   │       └── page.tsx
+│   ├── check-email
+│   │   └── page.tsx
 │   ├── company
 │   │   └── page.tsx
 │   ├── components
@@ -102,9 +142,9 @@
 │   │   │   ├── DeleteButton.tsx
 │   │   │   ├── LevelBadge.tsx
 │   │   │   ├── LogsPageWrapper.tsx
-│   │   │   └── PaymentForm.tsx
-│   │   ├── Adminpanel.tsx
-│   │   ├── AdminUserTable.tsx
+│   │   │   ├── PaymentForm.tsx
+│   │   │   ├── PaymentLogsTable.tsx
+│   │   │   └── SystemLogsTable.tsx
 │   │   ├── ClientLayout.tsx
 │   │   ├── ClientWrapper.tsx
 │   │   ├── ComponentRepository.tsx
@@ -150,16 +190,11 @@
 │   │   └── success
 │   │       └── page.tsx
 │   ├── page.tsx
+│   ├── payment-required
+│   │   └── page.tsx
 │   ├── pricing
 │   │   └── page.tsx
 │   ├── product
-│   │   ├── admin
-│   │   │   ├── create-user
-│   │   │   │   └── page.tsx
-│   │   │   ├── layout.tsx
-│   │   │   ├── page.tsx
-│   │   │   └── super
-│   │   │       └── page.tsx
 │   │   ├── apis
 │   │   │   └── page.tsx
 │   │   ├── data-entry
@@ -192,8 +227,6 @@
 │   │   └── page.tsx
 │   ├── solutions
 │   │   └── page.tsx
-│   ├── superadmin
-│   │   └── page.tsx
 │   └── verify-email
 │       └── page.tsx
 ├── bcrypt-test.js
@@ -202,7 +235,6 @@
 ├── docs
 │   ├── kimlik-dogrulama-akisi.md
 │   ├── prisma-models.md
-│   ├── structure.txt
 │   └── veritabani-erisimi.md
 ├── file-structure.txt
 ├── lib
@@ -244,9 +276,13 @@
 │   │   │   └── migration.sql
 │   │   ├── 20250612223614_add_company_plan
 │   │   │   └── migration.sql
+│   │   ├── 20250615_sync_cardLast4_and_payment_log
+│   │   │   └── migration.sql
 │   │   ├── 20250615114850_extend_user_model
 │   │   │   └── migration.sql
 │   │   ├── 20250615120756_add_is_whitelisted
+│   │   │   └── migration.sql
+│   │   ├── 20250615204301_link_payment_log_with_user
 │   │   │   └── migration.sql
 │   │   └── migration_lock.toml
 │   ├── schema.prisma
@@ -268,9 +304,9 @@
 ├── README.md
 ├── scripts
 │   └── crawler.ts
-├── structure.txt
 ├── tsconfig.json
 └── types
-    └── next-auth.d.ts
+    ├── next-auth.d.ts
+    └── payment.ts
 
-100 directories, 174 files
+119 directories, 191 files
