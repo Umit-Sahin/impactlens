@@ -41,8 +41,15 @@ export async function POST(req: Request) {
       },
     });
 
-    // Doğrulama URL'si
-    const verifyUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/verify-email?token=${emailVerifyToken}`;
+    // ✅ Güvenli fallback yapısı
+    const baseUrl =
+      process.env.NEXTAUTH_URL ||
+      process.env.NEXT_PUBLIC_APP_URL ||
+      (process.env.NODE_ENV === "production"
+        ? "https://impactlens.co"
+        : "http://localhost:3000");
+
+    const verifyUrl = `${baseUrl}/verify-email?token=${emailVerifyToken}`;
 
     // Doğrulama e-postası gönder
     await resend.emails.send({

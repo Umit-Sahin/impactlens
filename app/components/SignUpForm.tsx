@@ -29,19 +29,26 @@ export default function SignUpForm({ selectedPlan }: SignUpFormProps) {
     e.preventDefault();
     setLoading(true);
     setError('');
-
+  
     try {
       const res = await fetch('/api/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, plan: selectedPlan }),
       });
-
+  
       const data = await res.json();
-
+  
       if (!res.ok) {
         setError(data.message || 'Something went wrong');
       } else {
+        // ✅ Doğrulama email'ini gönder
+        await fetch('/api/auth/send-verification-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: formData.email, userId: data.userId }),
+        });
+  
         router.push('/check-email');
       }
     } catch (err) {
@@ -50,7 +57,7 @@ export default function SignUpForm({ selectedPlan }: SignUpFormProps) {
       setLoading(false);
     }
   };
-
+  
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
