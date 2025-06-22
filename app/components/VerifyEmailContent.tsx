@@ -1,3 +1,5 @@
+//app/components/VerifyEmailContent.tsx
+
 'use client';
 
 import { useSearchParams, useRouter } from 'next/navigation';
@@ -17,9 +19,10 @@ export default function VerifyEmailContent() {
 
     const verifyEmail = async () => {
       try {
-        const res = await fetch(`/api/auth/verify-email?token=${token}`);
+        const res = await fetch(`/api/verify-email?token=${token}`);
         if (res.ok) {
           setStatus('success');
+          setTimeout(() => router.push('/signin'), 3000);
         } else {
           setStatus('error');
         }
@@ -29,9 +32,9 @@ export default function VerifyEmailContent() {
     };
 
     verifyEmail();
-  }, [token]);
+  }, [token, router]);
 
   if (status === 'loading') return <div className="text-center">Verifying email...</div>;
-  if (status === 'success') return <div className="text-green-600 text-center">Email verified! You can now sign in.</div>;
-  return <div className="text-red-600 text-center">Invalid or expired token.</div>;
+  if (status === 'success') return <div className="text-green-600 text-center">✅ Email verified! You can now sign in.</div>;
+  return <div className="text-red-600 text-center">❌ Invalid or expired token.</div>;
 }
