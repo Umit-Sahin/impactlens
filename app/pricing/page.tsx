@@ -5,6 +5,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import MainBody from "@/components/MainBody";
+import DonateCard from "./DonateCard";
 
 export default function PricingPage() {
   const router = useRouter();
@@ -89,6 +90,10 @@ export default function PricingPage() {
           </button>
         </div>
       </div>
+      <div className="mt-16 max-w-md mx-auto">
+         <DonateCard />
+      </div>
+
     </MainBody>
   );
 }

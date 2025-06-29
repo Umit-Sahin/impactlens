@@ -1,10 +1,10 @@
 // 📄 app/api/payment/webhook/route.ts
 
 // ============================================================
-// Stripe webhook handler
+// Stripe Webhook Handler
 // Dinlenen eventler:
-// 1) checkout.session.completed → Ödeme tamamlandıysa hasActivePayment = true yap
-// 2) payment_intent.payment_failed → Ödeme başarısız olduysa log kaydı oluştur + uyarı mekanizması hazırlanır
+// 1) checkout.session.completed → Ödeme tamamlandı → hasActivePayment = true
+// 2) payment_intent.payment_failed → Ödeme başarısız oldu → log
 // 3) Diğer tüm eventler → PaymentLog tablosuna INFO olarak kaydedilir
 // ============================================================
 
@@ -13,19 +13,18 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import prisma from "@lib/prisma";
 
-// Stripe SDK
+// Stripe client
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-
 });
 
-// ✅ ÖNEMLİ: Webhook isteğinde body'nin orijinal haline ihtiyaç var
+// ✅ ÖNEMLİ: Webhook için raw body gerekir (Next.js >=13)
 export const config = {
   api: {
     bodyParser: false,
   },
 };
 
-// ✅ Yardımcı: Raw body elde etmek için (Next.js 15 ile uyumlu)
+// ✅ Yardımcı: ReadableStream → Buffer (raw body)
 async function getRawBody(readable: ReadableStream<Uint8Array>) {
   const reader = readable.getReader();
   const chunks = [];
@@ -37,7 +36,7 @@ async function getRawBody(readable: ReadableStream<Uint8Array>) {
   return Buffer.concat(chunks);
 }
 
-// ✅ Bölüm 2: Webhook POST handler
+// ✅ Webhook handler
 export async function POST(req: NextRequest) {
   try {
     const rawBody = await getRawBody(req.body!);
@@ -49,47 +48,57 @@ export async function POST(req: NextRequest) {
       process.env.STRIPE_WEBHOOK_SECRET!
     );
 
-    // ✅ Bölüm 3: Email & UserId çıkarımı (checkout.session.completed için geçerli)
+    const eventType = event.type;
+    let status: "SUCCESS" | "FAILED" | "INFO" = "INFO";
     let userEmail: string | undefined;
     let userId: string | undefined;
 
-    if (event.type === "checkout.session.completed") {
+    // ✅ Ödeme başarılı → Kullanıcı aktif yapılır
+    if (eventType === "checkout.session.completed") {
       const session = event.data.object as Stripe.Checkout.Session;
       userEmail = session.customer_email || undefined;
+      userId = session.metadata?.userId;
 
-      // Eğer metadata ile userId gönderildiyse al
-      if (session.metadata?.userId) {
-        userId = session.metadata.userId;
+      if (userId) {
+        await prisma.user.update({
+          where: { id: userId },
+          data: { hasActivePayment: true },
+        });
+        status = "SUCCESS";
       }
     }
 
-    // ✅ Bölüm 4: Log verileri
-    const eventType = event.type;
-    const status = event.type.includes("failed") ? "FAILED" : "SUCCESS";
-    const message = `Stripe event received: ${eventType}`;
+    // ✅ Ödeme başarısız
+    if (eventType === "payment_intent.payment_failed") {
+      status = "FAILED";
+    }
 
-    // ✅ Logu veritabanına kaydet
+    // ✅ Log kaydı (her durumda)
     await prisma.paymentLog.create({
       data: {
         eventType,
         userEmail,
+        userId,
         status,
-        raw: { message },
+        raw: {
+          message: `Stripe event received: ${eventType}`,
+        },
         createdAt: new Date(),
-        ...(userId ? { userId } : {}), // varsa userId ilişkisini kur
       },
     });
 
-    return new NextResponse("Webhook received and logged", { status: 200 });
+    return new NextResponse("✅ Webhook received", { status: 200 });
   } catch (err: any) {
-    console.error("Webhook error:", err.message);
+    console.error("❌ Webhook error:", err.message);
 
-    // Hata loglama (opsiyonel)
+    // 🔴 Hata logla
     await prisma.paymentLog.create({
       data: {
         eventType: "webhook.error",
         status: "ERROR",
-        raw: { message: err.message },
+        raw: {
+          message: err.message,
+        },
         createdAt: new Date(),
       },
     });

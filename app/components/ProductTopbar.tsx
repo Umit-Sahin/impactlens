@@ -15,7 +15,7 @@ export default function ProductTopbar() {
   const router = useRouter();
 
   const handleAdminClick = () => {
-    router.push('/admin');
+    router.push('/admin-super');
   };
 
   return (

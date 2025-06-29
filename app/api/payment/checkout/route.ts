@@ -1,45 +1,54 @@
 // 📄 app/api/payment/checkout/route.ts
 
+import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@lib/auth';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+// ✅ Stripe nesnesini başlat (versiyon belirtmek iyi bir pratiktir)
 
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
-const DOMAIN = process.env.NEXT_PUBLIC_APP_URL;
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const { userId } = body;
 
-export async function POST() {
-  const session = await getServerSession(authOptions);
+    // 🔐 Oturum kontrolü ve kullanıcı doğrulama
+    const session = await getServerSession(authOptions);
+    if (!session || session.user.id !== userId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
-  if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+    // 🔐 Ortam değişkenlerinin kontrolü
+    if (!process.env.STRIPE_PRICE_ID || !process.env.NEXT_PUBLIC_BASE_URL) {
+      console.error('Missing Stripe config');
+      return NextResponse.json({ error: 'Server misconfiguration' }, { status: 500 });
+    }
 
-  const stripeSession = await stripe.checkout.sessions.create({
-    payment_method_types: ['card'],
-    mode: 'payment',
-    customer_email: session.user.email!,
-    line_items: [
-      {
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: 'ImpactLens Monthly Plan',
-          },
-          unit_amount: 9900, // $99.00
+    // ✅ Checkout oturumu oluştur
+    const checkoutSession = await stripe.checkout.sessions.create({
+      mode: 'subscription',
+      payment_method_types: ['card'],
+      customer_email: session.user.email!,
+      line_items: [
+        {
+          price: process.env.STRIPE_PRICE_ID,
+          quantity: 1,
         },
-        quantity: 1,
+      ],
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/onboarding/success`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/onboarding/payment`,
+      metadata: {
+        userId,
+        plan: session.user.plan || 'UNKNOWN', // 🔍 Plan bilgisi varsa ekle
       },
-    ],
-    success_url: `${DOMAIN}/onboarding/success`,
-    cancel_url: `${DOMAIN}/onboarding/payment`,
-    metadata: {
-      userId: session.user.id,
-    },
-  });
+    });
 
-  return NextResponse.json({ url: stripeSession.url });
+    return NextResponse.json({ sessionId: checkoutSession.id });
+  } catch (err: any) {
+    console.error('Stripe Checkout error:', err);
+    return NextResponse.json({ error: 'Checkout session failed' }, { status: 500 });
+  }
 }
