@@ -8,23 +8,27 @@ import StripePayButton from '@/onboarding/payment/StripePayButton';
 export default async function PaymentPage() {
   const session = await getServerSession(authOptions);
 
+  // 👤 Oturum kontrolü
   if (!session) {
     redirect('/auth/signin');
   }
 
-  // SUPER_ADMIN veya zaten ödeme yapmış kullanıcılar product'a yönlendirilsin
+  // 🔐 Yetkili kullanıcılar direkt yönlendirilsin
   if (session.user.role === 'SUPER_ADMIN' || session.user.hasActivePayment) {
     redirect('/product/dashboard');
   }
 
   return (
     <div className="max-w-2xl mx-auto mt-16 px-4">
+      {/* 🎉 Başlık */}
       <h1 className="text-3xl font-bold mb-4">🎉 Welcome to ImpactLens</h1>
 
+      {/* ✅ Email Doğrulama Mesajı */}
       <div className="bg-green-100 text-green-800 p-4 rounded mb-6">
         ✅ Your email <strong>{session.user.email}</strong> has been verified successfully.
       </div>
 
+      {/* 💳 Ödeme Bilgisi */}
       <div className="bg-yellow-50 border border-yellow-300 p-4 rounded">
         <p className="text-lg font-medium mb-2">🧾 Payment Required</p>
         <p>
@@ -33,10 +37,10 @@ export default async function PaymentPage() {
         </p>
       </div>
 
+      {/* 💳 Ödeme Butonu */}
       <div className="mt-8 text-center">
-        <StripePayButton />
+        <StripePayButton userId={session.user.id} />
       </div>
     </div>
   );
 }
-
