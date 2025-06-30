@@ -1,4 +1,4 @@
-// 📄 app/admin/payments/PaymentHistoryTable.tsx
+// 📄 app/admin-super/payments/PaymentHistoryTable.tsx
 
 'use client';
 
@@ -32,7 +32,10 @@ export default function PaymentHistoryTable({
           {history.map((item) => (
             <tr key={item.id} className="border-t hover:bg-gray-50 transition">
               <td className="px-4 py-2">
-                {new Date(item.createdAt).toLocaleDateString()}
+              {new Date(item.createdAt).toLocaleString(undefined, {
+                dateStyle: 'medium',
+                timeStyle: 'short',
+              })}
               </td>
               <td className="px-4 py-2 text-green-600 font-medium">
                 ${item.amount.toFixed(2)}

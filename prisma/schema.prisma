@@ -118,6 +118,7 @@ model Payment {
   cardLast4       String?
   createdAt       DateTime @default(now())
   user            User     @relation(fields: [userId], references: [id])
+  source          String?
   
 }
 
@@ -133,6 +134,7 @@ model PaymentLog {
   
   userEmail  String?    // Optional, sadece kolay erişim için
   createdAt  DateTime   @default(now())
+  source     String?
 }
 
 
