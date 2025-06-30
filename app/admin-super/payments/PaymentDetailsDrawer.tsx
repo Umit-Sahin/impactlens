@@ -1,4 +1,4 @@
-// 📄 app/admin/payments/PaymentDetailsDrawer.tsx
+// 📄 app/admin-super/payments/PaymentDetailsDrawer.tsx
 
 'use client';
 

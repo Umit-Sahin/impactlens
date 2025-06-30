@@ -11,6 +11,7 @@ export type Payment = {
     stripePaymentId: string;
     cardLast4?: string | null;
     lastPaymentDate: string;
+    source?: 'stripe' | 'lemonsqueezy' | 'manual';
   };
   
   export type PaymentDetail = {
