@@ -1,5 +1,6 @@
 // app/admin-super/page.tsx
 
+// Bu sayfa silinebilir. admin-super/users sayfasi kullaniliyor.
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -18,7 +19,7 @@ export default function CompanyAdminPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetch('/api/admin/company-users')
+    fetch('/api/admin/users')
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
