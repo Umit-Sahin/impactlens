@@ -11,7 +11,7 @@ export default function DonateCard() {
         Support ImpactLens
       </h3>
       <p className="text-sm text-gray-600 mb-4">
-        If you like what we’re building, support the project with a $1 donation.
+        If you like what we’re building, support the project with a $2 donation.
       </p>
       <a
         href="https://impactlens.lemonsqueezy.com/buy/4afdd99b-5cc0-438d-b2b5-adfc0f59fffb"
